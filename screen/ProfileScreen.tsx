@@ -166,14 +166,16 @@ const ProfileScreen = () => {
             }}
           />
           <View style={styles.subThirdBoxRow}>
-            <TouchableOpacity style={styles.subThirdBoxRowContainer1}>
+            <TouchableOpacity
+              onPress={() => {
+                handleLogout();
+              }}
+              style={styles.subThirdBoxRowContainer1}
+            >
               <View style={styles.logout}>
                 <LogOutIcon color={"#AA1D1D"} />
               </View>
               <Text
-                onPress={() => {
-                  handleLogout();
-                }}
                 style={{
                   left: 10,
                   fontWeight: "500",

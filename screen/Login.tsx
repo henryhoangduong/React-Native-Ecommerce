@@ -10,6 +10,8 @@ import { TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native";
+
 type LoginProps = {
   navigation: NavigationProp<any>;
 };
@@ -17,23 +19,27 @@ type LoginProps = {
 const Login = ({ navigation }: LoginProps) => {
   const { login, isAuth } = useAuth();
   const nav = useNavigation();
+  const [isloading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(isAuth);
     if (isAuth) nav.navigate("Home" as never);
   }, [isAuth]);
 
-  const handleLogin = () => {
-    if (user.email === "12345678@gm.uit.edu.vn" && user.password === "1234") {
-      navigation.navigate("Home");
+  const handleLogin = async () => {
+    setLoading(true);
+    if (user.email === "" || user.password === "") {
+      Alert.alert("Please insert email or password");
     } else {
-      Alert.alert("Incorrect email or password");
+      await login();
     }
+    setLoading(false);
   };
   const [user, setUser] = useState({ email: "", password: "" });
   const handleChange = (key: string, value: string) => {
     setUser({ ...user, [key]: value });
   };
+  if (isloading) return <ActivityIndicator style={{ top: "50%" }} />;
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.root]}>

@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-import * as Keychain from "react-native-keychain";
 import { ActivityIndicator } from "react-native";
 import { useContext } from "react";
 import { apiClient } from "../api/api";
