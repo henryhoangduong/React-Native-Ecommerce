@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons"; // Import Expo icons
 import ProfileScreen from "./screen/ProfileScreen";
 import CartScreen from "./screen/CartScreen";
 import CategoryScreen from "./screen/CategoryScreen";
+import { useAuth } from "./context/AuthContext";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -54,9 +55,15 @@ const BottomNavigator = () => {
 };
 
 export const StackNavigator = () => {
+  const { isAuth } = useAuth();
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={isAuth ? "Home" : "Login"}
+    >
+      {/* isAuth: false */}
       <Stack.Screen name="Login" component={Login} />
+      {/* isAuth: true */}
       <Stack.Screen name="Home" component={BottomNavigator} />
     </Stack.Navigator>
   );

@@ -1,19 +1,28 @@
 // MSSV: 21522087
 // Ho va ten: Duong Huy Hoang
 import { Alert, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "@react-navigation/native";
 import { Image } from "react-native";
 import { TextInput } from "react-native";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
-
+import { useAuth } from "../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 type LoginProps = {
   navigation: NavigationProp<any>;
 };
 
 const Login = ({ navigation }: LoginProps) => {
+  const { login, isAuth } = useAuth();
+  const nav = useNavigation();
+
+  useEffect(() => {
+    console.log(isAuth);
+    if (isAuth) nav.navigate("Home" as never);
+  }, [isAuth]);
+
   const handleLogin = () => {
     if (user.email === "12345678@gm.uit.edu.vn" && user.password === "1234") {
       navigation.navigate("Home");
