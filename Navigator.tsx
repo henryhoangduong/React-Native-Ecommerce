@@ -7,11 +7,34 @@ import ProfileScreen from "./screen/ProfileScreen";
 import CartScreen from "./screen/CartScreen";
 import CategoryScreen from "./screen/CategoryScreen";
 import { useAuth } from "./context/AuthContext";
-
+import { useCart } from "./context/CartContext";
+import { StyleSheet, View, Text } from "react-native";
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
+const styles = StyleSheet.create({
+  iconContainer: {
+    position: "relative",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  badge: {
+    position: "absolute",
+    top: -5,
+    right: -5,
+    backgroundColor: "red",
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  badgeText: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+});
 
 const BottomNavigator = () => {
+  const { cartItems } = useCart();
   return (
     <BottomTab.Navigator>
       <BottomTab.Screen
@@ -37,7 +60,14 @@ const BottomNavigator = () => {
         component={CartScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cart-outline" size={size} color={color} />
+            <View style={styles.iconContainer}>
+              <Ionicons name="cart-outline" size={size} color={color} />
+              {cartItems.length > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{cartItems.length}</Text>
+                </View>
+              )}
+            </View>
           ),
         }}
       />
@@ -61,9 +91,7 @@ export const StackNavigator = () => {
       screenOptions={{ headerShown: false }}
       initialRouteName={isAuth ? "Home" : "Login"}
     >
-      {/* isAuth: false */}
       <Stack.Screen name="Login" component={Login} />
-      {/* isAuth: true */}
       <Stack.Screen name="Home" component={BottomNavigator} />
     </Stack.Navigator>
   );

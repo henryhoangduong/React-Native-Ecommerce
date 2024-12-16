@@ -3,11 +3,17 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { StackNavigator } from "./Navigator";
 import { AuthContextProvider } from "./context/AuthContext";
+import { ShoppingContextProvider } from "./context/ShoppingContext";
+import { CartProvider } from "./context/CartContext";
 export default function App() {
   return (
     <AuthContextProvider>
       <NavigationContainer>
-        <StackNavigator />
+        <ShoppingContextProvider>
+          <CartProvider>
+            <StackNavigator />
+          </CartProvider>
+        </ShoppingContextProvider>
       </NavigationContainer>
     </AuthContextProvider>
   );
