@@ -1,10 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Button, View, Text } from "react-native";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const CartScreen = () => {
+  const nav = useNavigation();
   return (
     <View style={[styles.root]}>
-      <Text>CartScreen</Text>
+      <Text>You have no product in cart</Text>
+      <Button
+        title="Shopping now"
+        onPress={() => {
+          nav.navigate("Home" as never);
+        }}
+      />
     </View>
   );
 };

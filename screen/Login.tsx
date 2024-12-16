@@ -2,7 +2,6 @@
 // Ho va ten: Duong Huy Hoang
 import { Alert, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Link } from "@react-navigation/native";
 import { Image } from "react-native";
 import { TextInput } from "react-native";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
@@ -27,7 +26,6 @@ const Login = ({ navigation }: LoginProps) => {
   }, [isAuth]);
 
   const handleLogin = async () => {
-    setLoading(true);
     if (user.email === "" || user.password === "") {
       Alert.alert("Please insert email or password");
     } else {
