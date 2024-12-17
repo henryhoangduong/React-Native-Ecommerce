@@ -19,3 +19,8 @@ export type Item = {
   rating: Rating;
   title: string;
 };
+
+export type CartItem = {
+  item: Item;
+  quantity: number;
+};

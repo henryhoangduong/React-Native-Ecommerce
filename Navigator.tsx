@@ -9,6 +9,7 @@ import CategoryScreen from "./screen/CategoryScreen";
 import { useAuth } from "./context/AuthContext";
 import { useCart } from "./context/CartContext";
 import { StyleSheet, View, Text } from "react-native";
+import ProductDetailScreen from "./screen/ProductDetailScreen";
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 const styles = StyleSheet.create({
@@ -93,6 +94,11 @@ export const StackNavigator = () => {
     >
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={BottomNavigator} />
+      <Stack.Screen
+        name="Product detail"
+        options={{ headerShown: true }}
+        component={ProductDetailScreen}
+      />
     </Stack.Navigator>
   );
 };

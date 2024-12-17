@@ -17,7 +17,7 @@ export const ShoppingContextProvider = ({
   children: ReactNode;
 }) => {
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [items, setItems] = useState<Item[] | null>(null);
+  const [items, setItems] = useState<Item[]>({} as Item[]);
   const fetchItems = async () => {
     setLoading(true);
     try {

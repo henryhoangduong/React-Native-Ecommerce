@@ -10,12 +10,21 @@ import React from "react";
 import { useShopping } from "../context/ShoppingContext";
 import { Item } from "../types/types";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
+import { useCart } from "../context/CartContext";
 const HomeScreen = () => {
+  const nav = useNavigation();
   const { items } = useShopping();
-
+  const { addToCart } = useCart();
   const renderItem = ({ item }: { item: Item }) => {
     return (
-      <TouchableOpacity style={styles.itemContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          // @ts-ignore
+          nav.navigate("Product detail", { item });
+        }}
+        style={styles.itemContainer}
+      >
         <Image source={{ uri: item.image }} style={styles.itemImage} />
         <View style={{ width: "100%" }}>
           <Text style={styles.itemTitle} numberOfLines={1}>
@@ -32,7 +41,11 @@ const HomeScreen = () => {
               Rating: {item.rating.rate} ({item.rating.count} reviews)
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              addToCart(item);
+            }}
+          >
             <AntDesign name="pluscircle" size={24} color="black" />
           </TouchableOpacity>
         </View>
