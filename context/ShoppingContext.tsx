@@ -7,6 +7,7 @@ import { Item } from "../types/types";
 type SHOPPINGTYPE = {
   fetchItems: () => void;
   items: Item[] | null;
+  getItemByCategory: (category: string) => Item[] | null;
 };
 
 const ShoppingContext = createContext<SHOPPINGTYPE>({} as SHOPPINGTYPE);
@@ -33,9 +34,24 @@ export const ShoppingContextProvider = ({
   useEffect(() => {
     fetchItems();
   }, []);
+  // export type Item = {
+  //   category: string;
+  //   description: string;
+  //   id: number;
+  //   image: string;
+  //   price: number;
+  //   rating: Rating;
+  //   title: string;
+  // };
 
+  const getItemByCategory = (category: string) => {
+    if (!items) return null;
+    return items.filter(
+      (item) => item.category.toLowerCase() === category.toLowerCase(),
+    );
+  };
   return (
-    <ShoppingContext.Provider value={{ fetchItems, items }}>
+    <ShoppingContext.Provider value={{ fetchItems, items, getItemByCategory }}>
       {isLoading ? <ActivityIndicator style={{ top: "50%" }} /> : children}
     </ShoppingContext.Provider>
   );

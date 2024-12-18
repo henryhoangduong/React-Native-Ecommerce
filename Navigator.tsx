@@ -10,6 +10,15 @@ import { useAuth } from "./context/AuthContext";
 import { useCart } from "./context/CartContext";
 import { StyleSheet, View, Text } from "react-native";
 import ProductDetailScreen from "./screen/ProductDetailScreen";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import AllCategoryScreen from "./screen/Category/AllCategoryScreen";
+import ElectronicsCategoryScreen from "./screen/Category/ElectronicsCategoryScreen";
+import JeweleryScreen from "./screen/Category/JeweleryScreent";
+import MenClothingScreen from "./screen/Category/MenClothingScreen";
+import Register from "./screen/RegisterScreen";
+import EditProfileScreen from "./screen/EditProfileScreen";
+
+const Top = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 const styles = StyleSheet.create({
@@ -34,6 +43,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const TopNavigator = () => {
+  return (
+    <Top.Navigator>
+      <Top.Screen name="All" component={AllCategoryScreen} />
+      <Top.Screen name="Electronics" component={ElectronicsCategoryScreen} />
+      <Top.Screen name="Jewelery" component={JeweleryScreen} />
+      <Top.Screen name="Men's clothing" component={MenClothingScreen} />
+    </Top.Navigator>
+  );
+};
+
 const BottomNavigator = () => {
   const { cartItems } = useCart();
   return (
@@ -49,7 +69,7 @@ const BottomNavigator = () => {
       />
       <BottomTab.Screen
         name="Category"
-        component={CategoryScreen}
+        component={TopNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="list-outline" size={size} color={color} />
@@ -93,11 +113,17 @@ export const StackNavigator = () => {
       initialRouteName={isAuth ? "Home" : "Login"}
     >
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Home" component={BottomNavigator} />
       <Stack.Screen
         name="Product detail"
         options={{ headerShown: true }}
         component={ProductDetailScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: true }}
+        name="Edit Profile"
+        component={EditProfileScreen}
       />
     </Stack.Navigator>
   );

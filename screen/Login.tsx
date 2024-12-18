@@ -26,10 +26,11 @@ const Login = ({ navigation }: LoginProps) => {
   }, [isAuth]);
 
   const handleLogin = async () => {
+    setLoading(true);
     if (user.email === "" || user.password === "") {
       Alert.alert("Please insert email or password");
     } else {
-      await login();
+      await login(user.email, user.password);
     }
     setLoading(false);
   };
@@ -42,10 +43,6 @@ const Login = ({ navigation }: LoginProps) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={[styles.root]}>
         <View style={[styles.logotitleContainer]}>
-          <Image
-            style={[styles.reactImage]}
-            source={require("../assets/reactjs.png")}
-          />
           <Text style={[styles.title]}>Welcome</Text>
         </View>
         <View style={[styles.inputContainer]}>
@@ -86,6 +83,16 @@ const Login = ({ navigation }: LoginProps) => {
             source={require("../assets/Google.jpg")}
           />
         </View>
+        <View style={styles.signUpContainer}>
+          <Text>Dont't have an acount?</Text>
+          <TouchableOpacity
+            onPress={() => {
+              nav.navigate("Register" as never);
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>Sign up here</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     gap: 10,
-    paddingTop: 200,
+    justifyContent: "center",
   },
   logotitleContainer: {
     alignItems: "center",
@@ -128,7 +135,7 @@ const styles = StyleSheet.create({
   },
   loginbtn: {
     borderRadius: 10,
-    backgroundColor: "orange",
+    backgroundColor: "black",
     width: "80%",
     alignItems: "center",
     paddingVertical: 10,
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   fpText: {
-    color: "#ce41b9",
+    color: "gray",
     width: 140,
   },
   socialContainer: {
@@ -173,5 +180,10 @@ const styles = StyleSheet.create({
   signUp: {
     fontWeight: "bold",
     color: "#115de0",
+  },
+  signUpContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 2,
   },
 });

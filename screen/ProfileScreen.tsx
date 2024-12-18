@@ -1,22 +1,15 @@
 import { View, Text, Switch } from "react-native";
 import { StyleSheet } from "react-native";
 import { Avatar } from "react-native-paper";
-import StoreIcon from "../assets/icons/StoreIcon";
-import { Button, Divider } from "react-native-paper";
-import { useState } from "react";
-import ArrowIcon from "../assets/icons/ArrowIcon";
-import SupportIcon from "../assets/icons/SupportIcon";
+import { Divider } from "react-native-paper";
 import LogOutIcon from "../assets/icons/LogoutIcon";
-import { NotificationIcon } from "../assets/icons/NotificationIcon";
-import { FaceIcon } from "../assets/icons/FaceIcon";
-import { PinCodeIcon } from "../assets/icons/PinCode";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 const ProfileScreen = () => {
   const { logout } = useAuth();
-  const [isEnabled, setIsEnabled] = useState(true);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const { user } = useAuth();
   const nav = useNavigation();
   const handleLogout = () => {
     logout();
@@ -26,90 +19,35 @@ const ProfileScreen = () => {
     <View style={styles.root}>
       <View style={styles.firstBox}>
         <View style={styles.avatar}>
-          <Avatar.Image size={72} source={require("../assets/avatar.jpg")} />
-        </View>
-        <View style={styles.name}>
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            Duong Huy Hoang
-          </Text>
-        </View>
-        <View style={styles.email}>
-          <Text style={{ fontWeight: "500", color: "gray" }}>
-            henryhoangduong@gmail.com
-          </Text>
-        </View>
-        <View style={styles.editButton}>
-          <Button
+          <Avatar.Image size={90} source={require("../assets/avatar.jpg")} />
+          <TouchableOpacity
+            onPress={() => {
+              nav.navigate("Edit Profile" as never);
+            }}
             style={{
+              position: "absolute",
               backgroundColor: "black",
+              right: 5,
+              bottom: 0,
+              padding: 7,
+              borderRadius: 100,
             }}
           >
-            <Text style={{ color: "white" }}>Edit Profile</Text>
-          </Button>
-        </View>
-      </View>
-      <View style={styles.secondBox}>
-        <Text style={{ fontWeight: "500", color: "gray", left: 5, bottom: 10 }}>
-          Inventories
-        </Text>
-        <View style={styles.subSecondBox}>
-          <View style={styles.subSecondBoxRow}>
-            <View style={styles.subSecondBoxRowContainer1}>
-              <View style={styles.icon}>
-                <StoreIcon color={"#A0A0A0"} />
-              </View>
-              <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                My Store
-              </Text>
-            </View>
-            <ArrowIcon color={"#A0A0A0"} />
-          </View>
-          <Divider
-            style={{
-              backgroundColor: "gray",
-              height: 0.6,
-              width: "90%",
-              alignSelf: "center",
-            }}
-          />
-          <View style={styles.subSecondBoxRow}>
-            <View style={styles.subSecondBoxRowContainer1}>
-              <View style={styles.icon}>
-                <SupportIcon color={"#A0A0A0"} />
-              </View>
-              <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                Support
-              </Text>
-            </View>
-            <ArrowIcon color={"#A0A0A0"} />
-          </View>
+            <AntDesign name="edit" size={15} color="white" />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.thirdBox}>
-        <Text
-          style={{ fontWeight: "500", color: "gray", left: 10, bottom: 10 }}
-        >
-          Preferences
+        <Text style={{ fontWeight: "500", color: "gray", left: 10 }}>
+          Information
         </Text>
         <View style={styles.subThirdBox}>
           <View style={styles.subThirdBoxRow}>
             <View style={styles.subThirdBoxRowContainer1}>
-              <View style={styles.icon}>
-                <NotificationIcon color={"#A0A0A0"} />
-              </View>
               <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                Push notification
+                {user.name}
               </Text>
             </View>
-            <Switch
-              trackColor={{ false: "#767577", true: "#FF8058" }}
-              thumbColor={"white"}
-              //@ts-expect-error activeThumbColor not recognized by TypeScript
-              activeThumbColor="white"
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
           </View>
           <Divider
             style={{
@@ -121,22 +59,12 @@ const ProfileScreen = () => {
           />
           <View style={styles.subThirdBoxRow}>
             <View style={styles.subThirdBoxRowContainer1}>
-              <View style={styles.icon}>
-                <FaceIcon color={"#A0A0A0"} />
+              <View style={styles.subThirdBoxRowContainer1}>
+                <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
+                  {user.email}
+                </Text>
               </View>
-              <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                Face Id
-              </Text>
             </View>
-            <Switch
-              trackColor={{ false: "#767577", true: "#FF8058" }}
-              thumbColor={"white"}
-              //@ts-expect-error activeThumbColor not recognized by TypeScript
-              activeThumbColor="white"
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
           </View>
           <Divider
             style={{
@@ -148,14 +76,40 @@ const ProfileScreen = () => {
           />
           <View style={styles.subThirdBoxRow}>
             <View style={styles.subThirdBoxRowContainer1}>
-              <View style={styles.icon}>
-                <PinCodeIcon color={"#A0A0A0"} />
-              </View>
               <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                Pin code
+                {user.username}
               </Text>
             </View>
-            <ArrowIcon color={"#A0A0A0"} />
+          </View>
+          <Divider
+            style={{
+              backgroundColor: "gray",
+              height: 0.6,
+              width: "90%",
+              alignSelf: "center",
+            }}
+          />
+          <View style={styles.subThirdBoxRow}>
+            <View style={styles.subThirdBoxRowContainer1}>
+              <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
+                {user.phone}
+              </Text>
+            </View>
+          </View>
+          <Divider
+            style={{
+              backgroundColor: "gray",
+              height: 0.6,
+              width: "90%",
+              alignSelf: "center",
+            }}
+          />
+          <View style={styles.subThirdBoxRow}>
+            <View style={styles.subThirdBoxRowContainer1}>
+              <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
+                {user.address}
+              </Text>
+            </View>
           </View>
           <Divider
             style={{
@@ -199,11 +153,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
     height: "100%",
     padding: 20,
     backgroundColor: "white",
+    gap: 60,
   },
   avatar: {
     display: "flex",
@@ -238,7 +192,10 @@ const styles = StyleSheet.create({
   editButton: {
     display: "flex",
     alignItems: "center",
-    padding: 5,
+    padding: 15,
+    backgroundColor: "black",
+    borderRadius: 25,
+    width: 100,
   },
   email: {
     display: "flex",
@@ -247,6 +204,10 @@ const styles = StyleSheet.create({
   },
   firstBox: {
     top: 20,
+    alignItems: "center",
+    gap: 5,
+    display: "flex",
+    flexDirection: "row",
   },
   secondBox: {
     width: "100%",
@@ -264,20 +225,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  subSecondBoxRowContainer1: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
+
   thirdBox: {
     width: "100%",
-    bottom: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+    gap: 10,
   },
   subThirdBox: {
     borderRadius: 26,
     overflow: "hidden",
-    backgroundColor: "#e8e8e8",
+    backgroundColor: "white",
   },
   subThirdBoxRow: {
     fontSize: 24,

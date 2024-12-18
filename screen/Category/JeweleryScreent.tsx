@@ -6,34 +6,18 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import { useShopping } from "../context/ShoppingContext";
-import { Item } from "../types/types";
+import React from "react";
+import { useShopping } from "../../context/ShoppingContext";
+import { Item } from "../../types/types";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../../context/CartContext";
 
-const HomeScreen = () => {
+const JeweleryScreen = () => {
   const nav = useNavigation();
-  const { items } = useShopping();
+  const { getItemByCategory } = useShopping();
+  const items = getItemByCategory("jewelery");
   const { addToCart } = useCart();
-
-  const bannerArray = [
-    "https://www.shutterstock.com/image-vector/ecommerce-web-banner-3d-smartphone-260nw-2069305328.jpg",
-    "https://img.pikbest.com/origin/10/01/82/867pIkbEsTAIq.png!w700wp",
-    "https://static.vecteezy.com/system/resources/thumbnails/004/707/493/small_2x/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-vector.jpg",
-  ];
-
-  const [bannerIndex, setBannerIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setBannerIndex((prevIndex) => (prevIndex + 1) % bannerArray.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const renderItem = ({ item }: { item: Item }) => {
     return (
       <TouchableOpacity
@@ -70,7 +54,6 @@ const HomeScreen = () => {
       </TouchableOpacity>
     );
   };
-
   return (
     <View style={styles.root}>
       <FlatList
@@ -79,24 +62,12 @@ const HomeScreen = () => {
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         contentContainerStyle={styles.listContainer}
-        ListHeaderComponent={
-          <>
-            <Image
-              source={{
-                uri: bannerArray[bannerIndex],
-              }}
-              style={styles.banner}
-            />
-
-            <Text style={styles.sectionTitle}>New Hot Deals</Text>
-          </>
-        }
       />
     </View>
   );
 };
 
-export default HomeScreen;
+export default JeweleryScreen;
 
 const styles = StyleSheet.create({
   root: {
@@ -104,11 +75,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
   },
-  sectionTitle: {
+  header: {
     fontSize: 24,
     fontWeight: "bold",
-    marginVertical: 15,
-    color: "#333",
+    marginBottom: 10,
   },
   listContainer: {
     paddingBottom: 10,
@@ -121,6 +91,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   itemImage: {
     width: 100,
@@ -149,10 +120,5 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 14,
     color: "#666",
-  },
-  banner: {
-    width: "100%",
-    height: 200, // Adjust the height of the banner as needed
-    resizeMode: "cover",
   },
 });
