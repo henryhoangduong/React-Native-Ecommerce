@@ -3,9 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./screen/HomeScreen";
 import Login from "./screen/Login";
 import { Ionicons } from "@expo/vector-icons"; // Import Expo icons
-import ProfileScreen from "./screen/ProfileScreen";
+import ProfileScreen from "./screen/Profile/ProfileScreen";
 import CartScreen from "./screen/CartScreen";
-import CategoryScreen from "./screen/CategoryScreen";
 import { useAuth } from "./context/AuthContext";
 import { useCart } from "./context/CartContext";
 import { StyleSheet, View, Text } from "react-native";
@@ -16,7 +15,7 @@ import ElectronicsCategoryScreen from "./screen/Category/ElectronicsCategoryScre
 import JeweleryScreen from "./screen/Category/JeweleryScreent";
 import MenClothingScreen from "./screen/Category/MenClothingScreen";
 import Register from "./screen/RegisterScreen";
-import EditProfileScreen from "./screen/EditProfileScreen";
+import EditProfileScreen from "./screen/Profile/EditProfileScreen";
 
 const Top = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();

@@ -2,9 +2,9 @@ import { View, Text, Switch } from "react-native";
 import { StyleSheet } from "react-native";
 import { Avatar } from "react-native-paper";
 import { Divider } from "react-native-paper";
-import LogOutIcon from "../assets/icons/LogoutIcon";
+import LogOutIcon from "../../assets/icons/LogoutIcon";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 const ProfileScreen = () => {
@@ -19,7 +19,7 @@ const ProfileScreen = () => {
     <View style={styles.root}>
       <View style={styles.firstBox}>
         <View style={styles.avatar}>
-          <Avatar.Image size={90} source={require("../assets/avatar.jpg")} />
+          <Avatar.Image size={90} source={require("../../assets/avatar.jpg")} />
           <TouchableOpacity
             onPress={() => {
               nav.navigate("Edit Profile" as never);
@@ -45,7 +45,7 @@ const ProfileScreen = () => {
           <View style={styles.subThirdBoxRow}>
             <View style={styles.subThirdBoxRowContainer1}>
               <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                {user.name}
+                {user.lastName + " " + user.firstName}
               </Text>
             </View>
           </View>
@@ -107,7 +107,7 @@ const ProfileScreen = () => {
           <View style={styles.subThirdBoxRow}>
             <View style={styles.subThirdBoxRowContainer1}>
               <Text style={{ left: 10, fontWeight: "500", fontSize: 16 }}>
-                {user.address}
+                {user.houseNumber + ", " + user.street + ", " + user.city}
               </Text>
             </View>
           </View>

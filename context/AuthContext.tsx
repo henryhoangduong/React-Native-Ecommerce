@@ -4,12 +4,15 @@ import { useContext } from "react";
 import { apiClient } from "../api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type User = {
-  name: string;
+export type User = {
   email: string;
   username: string;
   phone: string;
-  address: string;
+  houseNumber: number;
+  street: string;
+  city: string;
+  firstName: string;
+  lastName: string;
 };
 type AUTHTYPE = {
   isAuth: boolean;
@@ -17,6 +20,7 @@ type AUTHTYPE = {
   logout: () => void;
   user: User;
   updateUser: (name: string, value: string) => void;
+  handleUpdateUser: (user: User) => void;
 };
 
 const AuthContext = createContext<AUTHTYPE>({} as AUTHTYPE);
@@ -28,12 +32,15 @@ export const AuthContextProvider = ({
 }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [user, setUser] = useState({
-    name: "Dương Huy Hoàng",
+  const [user, setUser] = useState<User>({
     email: "henryhoangduong@gmail.com",
     username: "Dương Huy Hoàng",
     phone: "093452673",
-    address: "Go Vap, Ho Chi Minh",
+    firstName: "Huy Hoàng",
+    lastName: "Dương",
+    houseNumber: 12,
+    city: "Nha Trang",
+    street: "Nguyen Thi Minh Khai",
   });
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -72,11 +79,16 @@ export const AuthContextProvider = ({
   const updateUser = (name: string, value: string) => {
     setUser((prev) => ({
       ...prev,
-      [name]: value, // Use computed property to update the specific field dynamically
+      [name]: value,
     }));
   };
+  const handleUpdateUser = (user: User) => {
+    setUser(user);
+  };
   return (
-    <AuthContext.Provider value={{ isAuth, login, logout, user, updateUser }}>
+    <AuthContext.Provider
+      value={{ isAuth, login, logout, user, updateUser, handleUpdateUser }}
+    >
       {loading ? <ActivityIndicator style={{ top: "50%" }} /> : children}
     </AuthContext.Provider>
   );

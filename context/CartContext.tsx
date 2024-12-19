@@ -33,7 +33,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeFromCart = (id: number) => {
-    // Check if this is the last item in the cart
     if (cartItems.length === 1) {
       Alert.alert(
         "Confirm Removal",
@@ -73,7 +72,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           {
             text: "No",
             onPress: () => console.log("Item quantity change canceled"),
-            style: "cancel", // This will make "No" button appear with a cancel style
+            style: "cancel",
           },
           {
             text: "Yes",
@@ -86,10 +85,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
             },
           },
         ],
-        { cancelable: true }, // Allow dismissing the alert by tapping outside
+        { cancelable: true },
       );
     } else {
-      // Update quantity if it's greater than 0
       setCartItems((prevItems) =>
         prevItems.map((cartItem) =>
           cartItem.item.id === id ? { ...cartItem, quantity } : cartItem,
